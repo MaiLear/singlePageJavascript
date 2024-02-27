@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        html{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+        }
+
+        *,*::after,*::before{
+            box-sizing: inherit;
+        }
+
+        body{
+            margin: 0%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        img{
+            width: 100%;
+            object-fit: cover;
+        }
+
+        img .logo{
+            max-width: 100%;
+            height: auto;
+        }
+
+
+
+        main{
+            flex-grow: 1;
+        }
+
+        .menu{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: antiquewhite;
+        }
+        .menu a{
+            color: orange;
+            padding: 0 1vw;
+            transition: all 0.3s ease-in-out;
+        }
+        .menu a:hover{
+            opacity: .75;
+        }
+
+
+    </style>
+    <header class="header">
+        <section class="menu">
+            <article class="logo">
+                <img src="./assets/icons8-gato-64.png" alt="Gato">
+            </article>
+            <nav class="container">
+                <a id="home" href="">Home</a>
+                <a id="acerca" href="">Acerca</a>
+                <a id="servicios" href="">Servicios</a>
+                <a id="contacto" href="">Contacto</a>
+            </nav>
+        </section>
+    </header>
+
+    <main class="container"></main>
+
+    <footer>
+        <p>
+        <small>Sitio diseñado por Garfield</small>
+    </p>
+    </footer>
+    <script>
+        const d = document,
+        $main = d.querySelector('main');
+
+
+        const getHTML = async(options)=>{
+            let {url,success,error} = options;
+            try{
+            let res = await fetch(url);
+            html = await res.text();
+
+            if(!res.ok){
+                throw {status: res.status, statusText: res.statusText}
+            }
+            success(html);
+
+            console.log(res);
+            }catch(err){
+                let message = err.statusText || 'Ocurrio un error';
+                error(`Error ${err.status} ${message} ${err}`);
+            }
+        }
+
+
+
+        d.addEventListener('DOMContentLoaded',()=>{
+            getHTML({
+                url:'./home.html',
+                success: html=>$main.innerHTML = html,
+                error: err=>console.log(err)
+            })
+        })
+
+        d.addEventListener('click',(e)=>{
+            if(e.target.matches('#home')){
+                e.preventDefault()
+                getHTML({
+                    url:'./home.html',
+                    success: html=> $main.innerHTML = html,
+                    error: err=> console.log(err)
+                })
+            }
+            else if(e.target.matches('#acerca')){
+                e.preventDefault()
+                getHTML({
+                    url:'./acerca.html',
+                    success: html=> $main.innerHTML = html,
+                    error: err=> console.log(err)
+                })
+            }
+            else if(e.target.matches('#servicios')){
+                e.preventDefault()
+                getHTML({
+                    url:'./servicios.html',
+                    success: html=> $main.innerHTML = html,
+                    error: err=> console.log(err)
+                })
+            }
+            else if(e.target.matches('#contacto')){
+                e.preventDefault()
+                getHTML({
+                    url:'./contacto.html',
+                    success: html=> $main.innerHTML = html,
+                    error: err=> console.log(err)
+                })
+            }
+        })
+    </script>
+</body>
+</html>
